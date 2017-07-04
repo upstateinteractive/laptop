@@ -1,8 +1,9 @@
 #!/bin/sh
 
-# Welcome to the thoughtbot laptop script!
-# Be prepared to turn your laptop (or desktop, no haters here)
-# into an awesome development machine.
+# Welcome to the Upstate Interactive laptop script!
+# The script came from Thoughtbot. It was modified and tailored.
+# You may want to look at the original on Thoughtbots GitHub.
+# There's no place like home, so lets make your laptop cozy as a cottage!
 
 fancy_echo() {
   local fmt="$1"; shift
@@ -81,15 +82,6 @@ case "$SHELL" in
     ;;
 esac
 
-gem_install_or_update() {
-  if gem list "$1" --installed > /dev/null; then
-    gem update "$@"
-  else
-    gem install "$@"
-    rbenv rehash
-  fi
-}
-
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
     curl -fsS \
@@ -115,66 +107,16 @@ tap "thoughtbot/formulae"
 tap "homebrew/services"
 
 # Unix
-brew "ctags"
 brew "git"
 brew "openssl"
-brew "rcm"
-brew "reattach-to-user-namespace"
 brew "the_silver_searcher"
-brew "tmux"
 brew "vim"
-brew "watchman"
 brew "zsh"
 
-# Heroku
-brew "heroku-toolbelt"
-brew "parity"
-
-# GitHub
-brew "hub"
-
-# Image manipulation
-brew "imagemagick"
-
-# Testing
-brew "qt@5.5"
-
-# Programming languages and package managers
-brew "libyaml" # should come after openssl
+# Node and Yarn
 brew "node"
-brew "rbenv"
-brew "ruby-build"
 brew "yarn"
-
-# Databases
-brew "postgres", restart_service: true
-brew "redis", restart_service: true
 EOF
-
-fancy_echo "Symlink qmake binary to /usr/local/bin for Capybara Webkit..."
-brew unlink qt@5.5
-brew link --force qt@5.5
-
-fancy_echo "Configuring Ruby ..."
-find_latest_ruby() {
-  rbenv install -l | grep -v - | tail -1 | sed -e 's/^ *//'
-}
-
-ruby_version="$(find_latest_ruby)"
-# shellcheck disable=SC2016
-append_to_zshrc 'eval "$(rbenv init - --no-rehash)"' 1
-eval "$(rbenv init -)"
-
-if ! rbenv versions | grep -Fq "$ruby_version"; then
-  RUBY_CONFIGURE_OPTS=--with-openssl-dir=/usr/local/opt/openssl rbenv install -s "$ruby_version"
-fi
-
-rbenv global "$ruby_version"
-rbenv shell "$ruby_version"
-gem update --system
-gem_install_or_update 'bundler'
-number_of_cores=$(sysctl -n hw.ncpu)
-bundle config --global jobs $((number_of_cores - 1))
 
 if [ -f "$HOME/.laptop.local" ]; then
   fancy_echo "Running your customizations from ~/.laptop.local ..."
