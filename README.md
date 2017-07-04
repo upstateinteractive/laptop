@@ -59,11 +59,13 @@ Unix tools:
 * [OpenSSL] for Transport Layer Security (TLS)
 * [The Silver Searcher] for finding things in files
 * [Zsh] as your shell
+* [Oh-My-Zsh] as your zsh framework
 
 [Git]: https://git-scm.com/
 [OpenSSL]: https://www.openssl.org/
 [The Silver Searcher]: https://github.com/ggreer/the_silver_searcher
 [Zsh]: http://www.zsh.org/
+[Oh-My-Zsh]: http://www.ohmyz.sh
 
 
 Node and Yarn:

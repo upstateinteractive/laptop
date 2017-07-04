@@ -82,6 +82,13 @@ case "$SHELL" in
     ;;
 esac
 
+if ! [[ -d ~/.oh-my-zsh  ]]; then
+  fancy_echo "Installing oh-my-zsh..."
+    curl -fsSL \
+      "https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh"
+fi
+
+
 if ! command -v brew >/dev/null; then
   fancy_echo "Installing Homebrew ..."
     curl -fsS \
